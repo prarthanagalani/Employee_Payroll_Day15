@@ -1,5 +1,8 @@
 package org.example;
 
+import java.io.File;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -45,6 +48,55 @@ public class EmployeePayroll {
         System.out.println("\nEmployee Details:");
         employee.displayDetails();
 
-        scanner.close();
+        // UC2: File Operations
+        String fileName = "employee_details.txt";
+        File file = new File(fileName); // points to the file if its exist
+
+        try {
+            // Check if the file exists
+            if (file.exists()) {
+                System.out.println("\nFile " + fileName + " exists.");
+            } else {
+                System.out.println("\nFile " + fileName + " does not exist.");
+            }
+
+            // Create directory
+            File directory = new File("employee_data");
+            if (!directory.exists()) {
+                directory.mkdir();
+                System.out.println("Directory created: " + directory.getName());
+            }
+
+            // Create empty file
+            if (!file.exists()) {
+                file.createNewFile();
+                System.out.println("File created: " + file.getName());
+            }
+
+            // List files and directories
+            System.out.println("\nList of files and directories:");
+            File[] files = new File(".").listFiles();
+            for (File fileOrDir : files) {
+                System.out.println(fileOrDir.getName());
+            }
+
+            // Delete file
+            if (file.delete()) {
+                System.out.println("\nFile deleted: " + file.getName());
+            } else {
+                System.out.println("\nFailed to delete file.");
+            }
+
+            // Check if the file exists after deletion
+            if (file.exists()) {
+                System.out.println("File " + fileName + " still exists.");
+            } else {
+                System.out.println("File " + fileName + " does not exist after deletion.");
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }
